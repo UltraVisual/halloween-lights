@@ -1,0 +1,16 @@
+{
+  "name": "halloween",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.9.7",
+    "express-hbs": "^0.7.11",
+    "socket.io": "^1.1.0"
+  }
+}
