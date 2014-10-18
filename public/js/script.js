@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect(location.href);
 
 socket.on('connection-success', function (data) {
 	document.querySelector('#status').innerHTML = data.status;

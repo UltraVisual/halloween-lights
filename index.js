@@ -2,10 +2,10 @@ var express = require('express');
 var hbs = require('express-hbs');
 var app = express();
 var controller = require('./controller/main-controller');
-var socketServer = require('http').createServer(app);
-var io = require('socket.io')(socketServer);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 
-socketServer.listen(3000);
+server.listen(3000);
 
 app.get('/', controller.init);
 
