@@ -1,10 +1,8 @@
-var tinycolor = require('../lib/tinycolor');
-var OPC = new require('../lib/opc');
 var startPosition = 0;
 var numParticles = 60;
 var particles = [];
 var amount = 15;
-var FRAME_RATE = 20;
+var FRAME_RATE = 30;
 var RIGHT = 'right';
 var LEFT = 'left';
 var interval;
@@ -18,7 +16,7 @@ function createParticles(){
 			intensity: 1,
 			falloff: 150,
 			direction: RIGHT,
-			color: OPC.hsv(0, 0, 0)
+			color: [0, 0, 0]
 		};
 	}
 }
@@ -46,11 +44,7 @@ function draw() {
 			particle.direction = RIGHT
 		}
 
-		var particleData = new tinycolor({r: red, g: green, b: blue});
-
-		var color = OPC.hsv(particleData.toHsv().h, particleData.toHsv().s, particleData.toHsv().v);
-
-		particle.color = color;
+		particle.color = [red, green, blue];
 	}
 
 	client.mapParticles(particles, model);

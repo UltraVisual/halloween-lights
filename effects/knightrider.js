@@ -1,46 +1,48 @@
-var tinycolor = require('../lib/tinycolor');
-var OPC = new require('../lib/opc');
 var numParticles = 60;
 var particles = [];
 var FRAME_RATE = 20;
 var interval;
 var increase = true;
-var client, model;
+var client, model, amount = 1;
+
+var RED = [255, 0, 0];
+var BLACK = [0, 0, 0];
 
 function createParticles() {
-	var particleData = new tinycolor({r: 255, g: 0, b: 0});
-	var color = OPC.hsv(particleData.toHsv().h, particleData.toHsv().s, particleData.toHsv().v);
+	var color = [255, 0, 0];
 	for (var i = 0; i < numParticles; i++) {
 		particles[i] = {
 			point: [0, 0, 0],
 			intensity: 1,
-			falloff: 150,
+			falloff: 75,
 			color: color
 		};
 	}
 }
 
 function draw() {
-	for (var i = 0; i < numParticles; i++) {
+	var index = 0;
+	for (var i = numParticles / 2; i < numParticles; i++) {
+		(index < amount) ? particles[i].color = RED : particles[i].color = BLACK;
+		index++;
+	}
 
-		var particle = particles[i];
+	index = 0;
 
-		if (increase) {
-			particle.intensity += 0.1;
-			particle.falloff -= 5;
-		}
-		else {
-			particle.intensity -= 0.1;
-			particle.falloff += 5;
-		}
+	for (var j = 0; j < (numParticles / 2) - 1; j++) {
+		(index < amount) ? particles[j].color = RED : particles[j].color = BLACK;
+		index++;
+	}
 
-//		console.log(particle)
-
-		if (particle.intensity > 2) {
+	if(increase){
+		amount++;
+		if(amount >= 12){
 			increase = false;
 		}
-
-		if (particle.intensity <= 0.1) {
+	}
+	else{
+		amount--;
+		if(amount == 1){
 			increase = true;
 		}
 	}

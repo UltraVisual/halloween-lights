@@ -2,14 +2,23 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 	<title>Funky lighting</title>
 	<script src="/socket.io/socket.io.js"></script>
+	<link rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
-<span id="status">Not connected</span><br>
-<button id="krButton">Knight rider</button>
-<button id="pulseButton">Pulse</button>
-<button id="rbButton">Red Blue</button>
+<div class="container">
+	<h2 class="title">Halloween lights</h2>
+	<div class="status"><span>Connections status: </span><span id="status">Not connected</span><br></div>
+	<div class="ui">
+		<button class="button" id="krButton">Knight rider</button>
+		<button class="button" id="pulseButton">Pulse</button>
+		<button class="button" id="rbButton">Red Blue</button>
+		<button class="button" id="flameButton">Flame</button>
+		<button class="button" id="spectrumButton">Spectrum</button>
+	</div>
+</div>
 </body>
 <script src="js/script.js"></script>
 </html>

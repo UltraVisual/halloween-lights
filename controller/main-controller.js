@@ -1,6 +1,7 @@
 var chase = require('../effects/chase');
 var redblue = require('../effects/redblue');
 var knightrider = require('../effects/knightrider');
+var flame = require('../effects/flame');
 
 var OPC = new require('../lib/opc');
 var model = OPC.loadModel('./layout/strip60.json');
@@ -34,6 +35,11 @@ var controller = {
 				stopCurrentEffect();
 				chase.start(client, model);
 				currenteffect = chase;
+				break;
+			case 'flame':
+				stopCurrentEffect();
+				flame.start(client, model);
+				currenteffect = flame;
 				break;
 		}
 	}

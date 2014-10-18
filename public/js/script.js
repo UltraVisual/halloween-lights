@@ -7,6 +7,7 @@ socket.on('connection-success', function (data) {
 var krButton = document.querySelector('#krButton');
 var pulseButton = document.querySelector('#pulseButton');
 var rbButton = document.querySelector('#rbButton');
+var flameButton = document.querySelector('#flameButton');
 
 krButton.addEventListener('click', function(){
 	socket.emit('trigger-effect', { effect: 'knightrider' });
@@ -18,4 +19,8 @@ pulseButton.addEventListener('click', function(){
 
 rbButton.addEventListener('click', function(){
 	socket.emit('trigger-effect', { effect: 'redblue' });
+});
+
+flameButton.addEventListener('click', function(){
+	socket.emit('trigger-effect', { effect: 'flame' });
 });

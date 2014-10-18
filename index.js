@@ -17,7 +17,7 @@ app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 
 io.on('connection', function (socket) {
-	socket.emit('connection-success', { status: 'connected' });
+	socket.emit('connection-success', { status: 'Connected' });
 	socket.on('trigger-effect', function (data) {
 		controller.triggerEffect(data.effect)
 	});
