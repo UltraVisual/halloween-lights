@@ -1,26 +1,30 @@
-var socket = io.connect(location.href);
+var socket = io.connect(location.href), musicPlaying = false;
+var musicButton = document.querySelector('.music-button');
+var buttons = document.querySelectorAll('button[data-effect]');
 
 socket.on('connection-success', function (data) {
 	document.querySelector('#status').innerHTML = data.status;
 });
 
-var krButton = document.querySelector('#krButton');
-var pulseButton = document.querySelector('#pulseButton');
-var rbButton = document.querySelector('#rbButton');
-var flameButton = document.querySelector('#flameButton');
-
-krButton.addEventListener('click', function(){
-	socket.emit('trigger-effect', { effect: 'knightrider' });
+socket.on('music-playing', function(){
+	musicPlaying = true;
+	musicButton.innerHTML = 'Stop Music';
+});
+socket.on('music-stopped', function(){
+	musicPlaying = false;
+	musicButton.innerHTML = 'Play Music';
 });
 
-pulseButton.addEventListener('click', function(){
-	socket.emit('trigger-effect', { effect: 'chase' });
-});
+for(var i = 0; i < buttons.length; i++){
+	setListener(buttons[i], buttons[i].dataset.effect);
+}
 
-rbButton.addEventListener('click', function(){
-	socket.emit('trigger-effect', { effect: 'redblue' });
-});
+function setListener(button, effect){
+	button.addEventListener('click', function(){
+		socket.emit('trigger-effect', { effect: effect });
+	});
+}
 
-flameButton.addEventListener('click', function(){
-	socket.emit('trigger-effect', { effect: 'flame' });
+musicButton.addEventListener('click', function(){
+	musicPlaying ? socket.emit('stop-music') : socket.emit('play-music');
 });

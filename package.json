@@ -9,8 +9,10 @@
   "author": "me",
   "license": "ISC",
   "devDependencies": {
+    "colors": "^1.0.3",
     "express": "^4.9.7",
     "express-hbs": "^0.7.11",
+    "play": "^0.5.0",
     "socket.io": "^1.1.0"
   }
 }

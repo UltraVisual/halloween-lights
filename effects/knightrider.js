@@ -9,13 +9,12 @@ var RED = [255, 0, 0];
 var BLACK = [0, 0, 0];
 
 function createParticles() {
-	var color = [255, 0, 0];
 	for (var i = 0; i < numParticles; i++) {
 		particles[i] = {
 			point: [0, 0, 0],
 			intensity: 1,
 			falloff: 75,
-			color: color
+			color: RED
 		};
 	}
 }
