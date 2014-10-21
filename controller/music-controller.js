@@ -10,7 +10,7 @@ var music = [
 ];
 var index = 0;
 
-play.usePlayer('mplayer');
+play.usePlayer('play');
 
 play.on('play', function () {
 	console.log('I just started playing!');
