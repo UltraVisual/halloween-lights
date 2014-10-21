@@ -21,6 +21,15 @@ for (var i = 0; i < buttons.length; i++) {
 	setListener(buttons[i], buttons[i].dataset.effect);
 }
 
+function convertFloat32ToInt16(buffer) {
+	var l = buffer.length;
+	var buf = new Int16Array(l);
+	while (l--) {
+		buf[l] = Math.min(1, buffer[l]) * 0xFFFF;
+	}
+	return buf.buffer;
+}
+
 function setListener(button, effect) {
 	button.addEventListener('click', function () {
 		socket.emit('trigger-effect', { effect: effect });
@@ -33,17 +42,19 @@ musicButton.addEventListener('click', function () {
 
 speakButton.addEventListener('click', function () {
 	if (recordmic.isAvailable) {
-		if(!recorder){
-			recorder = recordmic({ onSampleData: function (left, right) {
-				socket.emit('sound-created', { left: left, right: right })
+		if (!recorder) {
+			speakButton.innerHTML = "Stop";
+			recorder = recordmic({ mono: 'left', volume: 1, onSampleData: function (left) {
+				socket.emit('sound-created', convertFloat32ToInt16(left))
 			}}, function (err) {
-				if( !err ) {
+				if (!err) {
 					recorder.start();
 				}
 			});
-		}
-		else{
+		} else {
 			recorder.stop();
+			recorder = undefined;
+			speakButton.innerHTML = "Speak";
 		}
 	}
 });

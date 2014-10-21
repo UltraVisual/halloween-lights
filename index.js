@@ -5,6 +5,12 @@ var controller = require('./controller/main-controller');
 var musicController = require('./controller/music-controller');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
+var Speaker = require('speaker');
+var speaker = new Speaker({
+	channels: 2,          // 2 channels
+	bitDepth: 16,         // 16-bit samples
+	sampleRate: 28000     // 44,100 Hz sample rate
+});
 
 server.listen(3000);
 
@@ -36,7 +42,7 @@ function addSocketListeners(socket) {
 		socket.emit('music-stopped');
 	})
 
-	socket.on('sound-created', function(sound){
-		console.log(sound.left);
+	socket.on('sound-created', function (sound) {
+		speaker.write(sound);
 	})
 }
