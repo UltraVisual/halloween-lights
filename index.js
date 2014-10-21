@@ -35,4 +35,8 @@ function addSocketListeners(socket) {
 		musicController.stopMusic();
 		socket.emit('music-stopped');
 	})
+
+	socket.on('sound-created', function(sound){
+		console.log(sound.left);
+	})
 }
