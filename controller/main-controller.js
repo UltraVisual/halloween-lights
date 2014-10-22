@@ -1,33 +1,27 @@
-var OPC = new require('../lib/opc');
-var model = OPC.loadModel('./layout/strip60.json');
-var client = new OPC('localhost', 7890);
+var fs = require('fs');
+var speeches = [];
 
-var currentEffect;
-
-function stopCurrentEffect() {
-	if (currentEffect) {
-		currentEffect.stop();
-	}
+function formatLabel(title) {
+	return title.charAt(0).toUpperCase() + title.substring(1).replace(/-/g, ' ');
+}
+function getSpeeches() {
+	var speechFilesLocation = './speeches';
+	fs.readdir(speechFilesLocation, function () {
+		var speechFiles = arguments[1];
+		for (var index in  speechFiles) {
+			var title = speechFiles[index].replace(/.mp3/g, '');
+			speeches.push({
+				data: title,
+				label: formatLabel(title)
+			});
+		}
+	});
 }
 
-function startCurrentEffect(effect){
-	try{
-		currentEffect = require('../effects/' + effect);
-		currentEffect.start(client, model);
-	}
-	catch(err){
-		console.log('Error starting effect: ', err);
-	}
-}
+getSpeeches();
 
-var controller = {
+module.exports = {
 	init: function (req, res) {
-		res.render('index');
-	},
-	triggerEffect: function (effect) {
-		stopCurrentEffect();
-		startCurrentEffect(effect);
+		res.render('index', { speeches: speeches });
 	}
 };
-
-module.exports = controller;

@@ -1,20 +1,16 @@
 var express = require('express');
 var hbs = require('express-hbs');
 var app = express();
-var controller = require('./controller/main-controller');
+var mainController = require('./controller/main-controller');
+var effectController = require('./controller/effect-controller');
 var musicController = require('./controller/music-controller');
+var speechController = require('./controller/speech-controller');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var Speaker = require('speaker');
-var speaker = new Speaker({
-	channels: 2,          // 2 channels
-	bitDepth: 16,         // 16-bit samples
-	sampleRate: 28000     // 44,100 Hz sample rate
-});
 
 server.listen(3000);
 
-app.get('/', controller.init);
+app.get('/', mainController.init);
 
 app.engine('hbs', hbs.express3({}));
 
@@ -25,11 +21,16 @@ app.set('views', __dirname + '/views');
 
 io.on('connection', addSocketListeners);
 
+function stopMusic(socket) {
+	musicController.stopMusic();
+	socket.emit('music-stopped');
+}
+
 function addSocketListeners(socket) {
 	socket.emit('connection-success', { status: 'Connected' });
 
-	socket.on('trigger-effect', function (data) {
-		controller.triggerEffect(data.effect)
+	socket.on('trigger-effect', function (effect) {
+		effectController.triggerEffect(effect)
 	});
 
 	socket.on('play-music', function () {
@@ -38,11 +39,13 @@ function addSocketListeners(socket) {
 	});
 
 	socket.on('stop-music', function () {
-		musicController.stopMusic();
-		socket.emit('music-stopped');
-	})
+		stopMusic(socket);
+	});
 
-	socket.on('sound-created', function (sound) {
-		speaker.write(sound);
+	socket.on('speak', function (speech) {
+		if(musicController.isPlaying()){
+			stopMusic(socket);
+		}
+		speechController.speak(speech);
 	})
 }

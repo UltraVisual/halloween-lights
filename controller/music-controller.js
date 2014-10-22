@@ -1,28 +1,20 @@
 var play = require('../lib/play').Play();
-var music = [
-	'./music/SpookMedely1_64kb.mp3',
-	'./music/SpookMedely2_64kb.mp3',
-	'./music/SpookMedely3_64kb.mp3',
-	'./music/SpookMedely4_64kb.mp3',
-	'./music/SpookMedely5_64kb.mp3',
-	'./music/SpookMedely6_64kb.mp3',
-	'./music/SpookMedely7_64kb.mp3'
-];
+var fs = require('fs');
+var music = [];
 var index = 0;
+var isPlaying = false;
 
 play.usePlayer('mplayer');
 
-play.on('play', function () {
-	console.log('I just started playing!');
-});
-
-play.on('error', function () {
-	console.log('I can\'t play!');
-});
-
-play.on('stop', function () {
-	console.log('I stopped playing!');
-});
+function getMusic(){
+	var musicFilesLocation = './music';
+	fs.readdir(musicFilesLocation, function(){
+		var musicFiles = arguments[1];
+		for(var index in  musicFiles){
+			music.push(musicFilesLocation + '/' + musicFiles[index]);
+		}
+	});
+}
 
 function incrementIndex(){
 	index++;
@@ -32,6 +24,7 @@ function incrementIndex(){
 }
 
 function playMusic(){
+	isPlaying = true;
 	play.sound(music[index], function(){
 		incrementIndex();
 		playMusic();
@@ -40,8 +33,14 @@ function playMusic(){
 
 function stopMusic(){
 	play.stop();
+	isPlaying = false;
 	incrementIndex();
 }
 
+getMusic();
+
 module.exports.playMusic = playMusic;
 module.exports.stopMusic = stopMusic;
+module.exports.isPlaying = function(){
+	return isPlaying;
+};

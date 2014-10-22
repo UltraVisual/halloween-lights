@@ -28,7 +28,9 @@
 	</div>
 	<hr>
 	<div class="speak ui">
-		<button class="button speak-button">Speak</button>
+		{{#each speeches}}
+		<button class="button" data-speach="{{data}}">{{label}}</button>
+		{{/each}}
 	</div>
 </div>
 </body>
