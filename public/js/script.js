@@ -1,7 +1,7 @@
 var socket = io.connect(location.href), musicPlaying = false;
 var musicButton = document.querySelector('.music-button');
 var effectButtons = document.querySelectorAll('button[data-effect]');
-var speachButtons = document.querySelectorAll('button[data-speach]');
+var speachButtons = document.querySelectorAll('button[data-speech]');
 var i;
 
 socket.on('connection-success', function (data) {
@@ -23,9 +23,9 @@ function setListenersForEffectButtons(button, effect) {
 	});
 }
 
-function setListenersForSpeachButtons(button, speach){
+function setListenersForSpeechButtons(button, speech){
 	button.addEventListener('click', function () {
-		socket.emit('speak', speach);
+		socket.emit('speak', speech);
 	});
 }
 
@@ -37,7 +37,7 @@ for (i = 0; i < effectButtons.length; i++) {
 	setListenersForEffectButtons(effectButtons[i], effectButtons[i].dataset.effect);
 }
 for (i = 0; i < speachButtons.length; i++) {
-	setListenersForSpeachButtons(speachButtons[i], speachButtons[i].dataset.speach);
+	setListenersForSpeechButtons(speachButtons[i], speachButtons[i].dataset.speech);
 }
 
 
