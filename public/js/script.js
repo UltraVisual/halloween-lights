@@ -1,7 +1,7 @@
 var socket = io.connect(location.href), musicPlaying = false;
 var musicButton = document.querySelector('.music-button');
 var effectButtons = document.querySelectorAll('button[data-effect]');
-var speachButtons = document.querySelectorAll('button[data-speech]');
+var speechButtons = document.querySelectorAll('button[data-speech]');
 var i;
 
 socket.on('connection-success', function (data) {
@@ -36,8 +36,8 @@ musicButton.addEventListener('click', function () {
 for (i = 0; i < effectButtons.length; i++) {
 	setListenersForEffectButtons(effectButtons[i], effectButtons[i].dataset.effect);
 }
-for (i = 0; i < speachButtons.length; i++) {
-	setListenersForSpeechButtons(speachButtons[i], speachButtons[i].dataset.speech);
+for (i = 0; i < speechButtons.length; i++) {
+	setListenersForSpeechButtons(speechButtons[i], speechButtons[i].dataset.speech);
 }
 
 
